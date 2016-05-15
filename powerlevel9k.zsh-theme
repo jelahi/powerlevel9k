@@ -97,6 +97,10 @@ else
   DEFAULT_COLOR_INVERTED=white
 fi
 
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND=blue
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND=$DEFAULT_COLOR
+POWERLEVEL9K_STATUS_BACKGROUND=red
+
 ################################################################
 # Prompt Segment Constructors
 #
@@ -507,11 +511,11 @@ prompt_dir() {
 
   local current_icon=''
   if [[ $(print -P "%~") == '~' ]]; then
-    "$1_prompt_segment" "$0_HOME" "$2" "blue" "$DEFAULT_COLOR" "$current_path" 'HOME_ICON'
+    "$1_prompt_segment" "$0_HOME" "$2" "$POWERLEVEL9K_DIR_DEFAULT_BACKGROUND" "$POWERLEVEL9K_DIR_DEFAULT_FOREGROUND" "$current_path" 'HOME_ICON'
   elif [[ $(print -P "%~") == '~'* ]]; then
-    "$1_prompt_segment" "$0_HOME_SUBFOLDER" "$2" "blue" "$DEFAULT_COLOR" "$current_path" 'HOME_SUB_ICON'
+    "$1_prompt_segment" "$0_HOME_SUBFOLDER" "$2" "$POWERLEVEL9K_DIR_DEFAULT_BACKGROUND" "$POWERLEVEL9K_DIR_DEFAULT_FOREGROUND" "$current_path" 'HOME_SUB_ICON'
   else
-    "$1_prompt_segment" "$0_DEFAULT" "$2" "blue" "$DEFAULT_COLOR" "$current_path" 'FOLDER_ICON'
+    "$1_prompt_segment" "$0_DEFAULT" "$2" "$POWERLEVEL9K_DIR_DEFAULT_BACKGROUND" "$POWERLEVEL9K_DIR_DEFAULT_FOREGROUND" "$current_path" 'FOLDER_ICON'
   fi
 }
 
@@ -743,13 +747,15 @@ set_default POWERLEVEL9K_STATUS_VERBOSE true
 prompt_status() {
   if [[ "$POWERLEVEL9K_STATUS_VERBOSE" == true ]]; then
     if [[ "$RETVAL" -ne 0 ]]; then
-      "$1_prompt_segment" "$0_ERROR" "$2" "red" "226" "$RETVAL" 'CARRIAGE_RETURN_ICON'
+      "$1_prompt_segment" "$0_ERROR" "$2" "$POWERLEVEL9K_STATUS_BACKGROUND" "226" "$RETVAL" 'CARRIAGE_RETURN_ICON'
     else
-      "$1_prompt_segment" "$0_OK" "$2" "$DEFAULT_COLOR" "046" "" 'OK_ICON'
+      "$1_prompt_segment" "$0_OK" "$2" "$POWERLEVEL9K_STATUS_BACKGROUND" "046" "" 'OK_ICON'
     fi
   else
     if [[ "$RETVAL" -ne 0 ]]; then
-      "$1_prompt_segment" "$0_ERROR" "$2" "$DEFAULT_COLOR" "red" "" 'FAIL_ICON'
+      "$1_prompt_segment" "$0_ERROR" "$2" "$POWERLEVEL9K_STATUS_BACKGROUND" "red" "" 'FAIL_ICON'
+    else
+      "$1_prompt_segment" "$0_OK" "$2" "$POWERLEVEL9K_STATUS_BACKGROUND" "046" "" 'OK_ICON'
     fi
   fi
 }
